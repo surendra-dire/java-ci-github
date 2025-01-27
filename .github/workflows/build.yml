@@ -20,16 +20,16 @@ jobs:
         cache: maven
 
     - name: Cache Maven Dependencies
-        uses: actions/cache@v3
-        with:
-          path: ~/.m2/repository
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+      uses: actions/cache@v3
+      with:
+        path: ~/.m2/repository
+        key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
           
     - name: Build with Maven
-        run: mvn clean install
+      run: mvn clean install
 
     - name: Upload Build Artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: jar
-          path: target/*.jar
+      uses: actions/upload-artifact@v3
+      with:
+        name: jar
+        path: target/*.jar
