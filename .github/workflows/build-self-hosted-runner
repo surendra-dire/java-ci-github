@@ -1,5 +1,5 @@
 
-name: Java CI with Maven surendra
+name: CI Pipeline for build using self hosted runners
 
 on:
   push:
