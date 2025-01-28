@@ -13,10 +13,11 @@ jobs:
     runs-on: [self-hosted, my-ec2-runner]
 
     steps:
+    
     - name: Print runner name
       run: |
           echo "Runner name is $RUNNER_NAME"
-          echo "Surendra - Runner name is my-ec2-runner "
+
     - uses: actions/checkout@v4
     - name: Set up JDK 17
       uses: actions/setup-java@v4
