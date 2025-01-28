@@ -10,7 +10,7 @@ on:
 jobs:
   build:
     #runs-on: ubuntu-latest
-    runs-on: [self-hosted, ubuntu-runner-surendra]
+    runs-on: [self-hosted, my-ec2-runner]
 
     steps:
     
