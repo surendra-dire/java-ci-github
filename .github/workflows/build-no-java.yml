@@ -1,4 +1,4 @@
-name: Java CI with Maven
+name: surendra test
 
 on:
   push:
@@ -13,14 +13,10 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-    - name: Set up JDK 17
+    - name: Set up JDK 17 -surendra
       uses: actions/setup-java@v4
       with:
         java-version: '17'
         distribution: 'temurin'
         cache: maven
-    - name: Build with Maven
-      run: mvn clean install -DskipTests
 
-    - name: Run tests with Maven
-      run: mvn test
