@@ -5,7 +5,7 @@ on:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
-
+  workflow_dispatch:  # This enables manual trigger
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -35,6 +35,6 @@ jobs:
         path: target/*.jar
 
     - name: SonarCloud Scaning
-      run: mvn sonar:sonar -Dsonar.projectKey=surendradire_java-ci-gihub -Dsonar.organization=surendradire -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=2f515f13fa1f66d8619b8f604c87e2bacc7a8bc3
+      run: mvn sonar:sonar -Dsonar.projectKey=surendradire_java-ci-gihub -Dsonar.organization=demo-org-name -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=2f515f13fa1f66d8619b8f604c87e2bacc7a8bc3
 
       
