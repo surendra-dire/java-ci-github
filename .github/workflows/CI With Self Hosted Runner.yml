@@ -14,7 +14,7 @@ jobs:
 
     steps:
     - name: Print runner name
-        run: echo "Runner name is: $RUNNER_NAME"
+      run: echo "Runner name is: $RUNNER_NAME"
 
     - uses: actions/checkout@v4
     - name: Set up JDK 17
