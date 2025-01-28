@@ -2,10 +2,10 @@
 name: CI 4 self hosted runners
 
 on:
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+  #push:
+    #branches: [ "main" ]
+  #pull_request:
+    #branches: [ "main" ]
   workflow_dispatch:  # This enables manual trigger
 jobs:
   build:
