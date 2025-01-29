@@ -1,4 +1,4 @@
-name: Java CI with Maven surendra
+name: jfrog
 
 on:
   workflow_dispatch:  # This enables manual trigger
