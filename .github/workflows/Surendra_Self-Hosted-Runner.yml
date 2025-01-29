@@ -9,8 +9,8 @@ on:
   workflow_dispatch:  # This enables manual trigger
 jobs:
   build:
-    #runs-on: ubuntu-latest
-    runs-on: [self-hosted, my-ec2-runner]
+    runs-on: ubuntu-latest
+    #runs-on: [self-hosted, my-ec2-runner]
 
     steps:
     
