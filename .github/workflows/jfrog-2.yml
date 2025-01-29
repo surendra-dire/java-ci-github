@@ -42,6 +42,8 @@ jobs:
       run: |
         curl -fL https://getcli.jfrog.io | sh
         sudo mv jfrog /usr/local/bin/
+        sudo cd /usr/local/bin/
+        sudo jf --version
     
     - name: Configure JFrog CLI
       uses: jfrog/setup-jfrog-cli@v3
