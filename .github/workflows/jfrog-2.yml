@@ -2,7 +2,7 @@ name: jfrog
 
 on:
   workflow_dispatch:  # This enables manual trigger
- 
+
 env:
   # [Mandatory]
   # JFrog platform URL and access token for
@@ -71,7 +71,7 @@ jobs:
     - name: Install and configure JFrog CLI
       run: |
         npm install -g jfrog-cli-v2-jf
-        echo ${{ secrets.JFROG_TOKEN }} | jf c add --interactive=false --url=$JF_URL --access-token-stdin
+        #echo ${{ secrets.JFROG_TOKEN }} | jf c add --interactive=false --url=$JF_URL --access-token-stdin
         
     - name: Configure JFrog CLI - Ankit
       uses: jfrog/setup-jfrog-cli@v3
