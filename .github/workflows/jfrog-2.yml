@@ -2,7 +2,7 @@ name: jfrog
 
 on:
   workflow_dispatch:  # This enables manual trigger
-
+ 
 env:
   # [Mandatory]
   # JFrog platform URL and access token for
