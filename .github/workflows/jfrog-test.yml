@@ -1,4 +1,4 @@
-name: jfrog
+name: jfrog-test
 on:
   workflow_dispatch:  # This enables manual trigger
 env:
