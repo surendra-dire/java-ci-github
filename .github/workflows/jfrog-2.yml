@@ -8,7 +8,7 @@ env:
   # JFrog platform URL and access token for
   # a JFrog platform instance with active
   # JFrog Advanced Security subscription
-  JF_URL: https://trialj8vw48.jfrog.io/
+  JF_URL: https://trialj8vw48.jfrog.io/repo-test
   JF_TOKEN: cmVmdGtuOjAxOjE3Njk2NzQ1OTE6OEVVWUprVVhQQzhQQ25vbldxMFBJNHpoV2R
   
 jobs:
