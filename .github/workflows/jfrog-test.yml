@@ -1,47 +1,60 @@
-name: test123
-
-
-on: [push]
-
-
-jobs:
- build:
-   runs-on: ubuntu-latest
+name: jfrog
+on:
+  workflow_dispatch:  # This enables manual trigger
+env:
+  JF_URL: https://trialj8vw48.jfrog.io
+  JF_TOKEN: ${{ secrets.JFROG_TOKEN }}
   
-   steps:
-   # This action checks out the code from the repository
-   - name: Checkout Code
-     uses: actions/checkout@v2
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
 
+    - name: Print runner name
+      run: | 
+          echo "Runner name is $RUNNER_NAME"
 
-   # This action sets up the JFrog CLI with Artifactory URL and    a predefined Artifactory oidc integration name
-   - uses: jfrog/setup-jfrog-cli@v4
-     with:
-          oidc-provider-name: <oidc integration name>
-     env:
-       JF_URL: https://trialj8vw48.jfrog.io/
-       #JF_PROJECT: ${{ vars.JF_PROJECT }} # optional variable
-
-      
-   # This action sets up the JFrog CLI with the Artifactory URL and access token     
-   - uses: jfrog/setup-jfrog-cli@v4
-     env:
-       JF_URL: https://trialj8vw48.jfrog.io/
-       JF_ACCESS_TOKEN: ${{ secrets.JFROG_TOKEN }} 
-
-   # This command adds a new server configuration to the JFrog CLI, as an alternative for using the setup-jfrog-cli action    
-   - run: |
-       export SERVER_ID="test"
-       jf c add $SERVER_ID --url=https://trialj8vw48.jfrog.io/ --access-token=${{ secrets.JFROG_TOKEN }}  --interactive=false
-
-
-   # This action creates a new test file and uploads it to Artifactory, if build_name and build_number are omitted GitHub run default are used     
-   - name: Push Build to Artifactory
-     run: |
-       echo "test file " > test.txt
-       export BUILD_NAME="my-build"
-       export BUILD_MODULE="my-module"
-       export BUILD_NUMBER="1"
-
-
+    - uses: actions/checkout@v4
     
+    - name: Set up JDK 17
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+        cache: maven
+
+    - name: Cache Maven Dependencies
+      uses: actions/cache@v3
+      with:
+        path: ~/.m2/repository
+        key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          
+    - name: Build with Maven
+      run: mvn clean install
+
+    - name: Upload Build Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: jar
+        path: target/*.jar
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+
+    - name: Install and configure JFrog CLI
+      run: |
+        npm install -g jfrog-cli-v2-jf
+        echo ${{ secrets.JFROG_TOKEN }} | jf c add --interactive=false --url=https://trialj8vw48.jfrog.io --access-token-stdin
+
+    - name: Configure JFrog CLI with Access Token
+      run: |
+        jf config add artifactory-server \
+          --url="https://trialj8vw48.jfrog.io" \
+          --user="admin" \
+          --password="Admin123!" \
+          
+    - name: Upload JAR to JFrog
+      run: |
+        #jf config add artifactory-server --artifactory-url="https://trialj8vw48.jfrog.io" --user="admin" --password="Admin123!" --interactive=false
+        #echo ${{ secrets.JFROG_TOKEN }} | jf c add --interactive=false --url=https://trialj8vw48.jfrog.io --access-token-stdin
+        sudo jf rt u "target/*.jar" "/artifactory/repo-test/"  --url="https://trialj8vw48.jfrog.io" --user "admin" --password="Admin123!"
