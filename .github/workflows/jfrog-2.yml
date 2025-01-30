@@ -38,13 +38,24 @@ jobs:
     #- name: SonarCloud Scaning
       #run: mvn sonar:sonar -Dsonar.projectKey=surendradire_java-ci-gihub -Dsonar.organization=demo-org-key -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=2f515f13fa1f66d8619b8f604c87e2bacc7a8bc3
 
-    - name: Set up JFrog CLI
-      run: |
-        curl -fL https://getcli.jfrog.io | sh
-        sudo jf --version
-        sudo mv jfrog /usr/local/bin/
-        sudo jf --version
-    
+     #- name: Set up JFrog CLI
+       #run: |
+         #curl -fL https://getcli.jfrog.io | sh
+         #sudo jf --version
+         #sudo mv jfrog /usr/local/bin/
+         #sudo jf --version
+
+    - name: Setup JFrog CLI
+      uses: jfrog/setup-jfrog-cli@v4.5.6
+      with:
+        version: 2.73.0  # Specify a version of JFrog CLI
+        download-repository: https://myartifactory.example.com/jfrog-cli
+        oidc-provider-name: my-oidc-provider  # OpenID Connect provider
+        oidc-audience: https://my-org.example.com
+        disable-job-summary: true  # Disable the job summary generation
+        disable-auto-build-publish: true  # Disable automatic build-info publishing
+        custom-server-id: my-custom-server-id  # Use a custom server ID for configuration
+
     - name: Configure JFrog CLI
       uses: jfrog/setup-jfrog-cli@v3
       with:
