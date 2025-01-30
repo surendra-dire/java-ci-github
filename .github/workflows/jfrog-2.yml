@@ -82,9 +82,14 @@ jobs:
       #env:
         #JF_URL: https://trialj8vw48.jfrog.io
         #JF_ACCESS_TOKEN: ${{ secrets.JFROG_TOKEN }}
-        
+    - name: Configure JFrog CLI with Access Token
+      run: |
+        jfrog config add artifactory-server \
+          --url="https://trialj8vw48.jfrog.io" \
+          --password="Admin123!" \
+          
     - name: Upload JAR to JFrog
       run: |
-        jf config add artifactory-server --artifactory-url="https://trialj8vw48.jfrog.io" --user="admin" --password="Admin123!" --interactive=false
+        #jf config add artifactory-server --artifactory-url="https://trialj8vw48.jfrog.io" --user="admin" --password="Admin123!" --interactive=false
         #echo ${{ secrets.JFROG_TOKEN }} | jf c add --interactive=false --url=https://trialj8vw48.jfrog.io --access-token-stdin
         sudo jf rt u "target/*.jar" "repo-test/"     
