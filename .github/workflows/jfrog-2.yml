@@ -73,13 +73,13 @@ jobs:
         npm install -g jfrog-cli-v2-jf
         echo $JF_TOKEN | jf c add --interactive=false --url=$JF_URL --access-token-stdin
         
-    #- name: Configure JFrog CLI
-      #uses: jfrog/setup-jfrog-cli@v3
-      #with:
-        #version: latest
-      #env:
-        #JF_URL: https://trialj8vw48.jfrog.io/
-        #JF_ACCESS_TOKEN: cmVmdGtuOjAxOjE3Njk2NzQ1OTE6OEVVWUprVVhQQzhQQ25vbldxMFBJNHpoV2Rm
+    - name: Configure JFrog CLI - Ankit
+      uses: jfrog/setup-jfrog-cli@v3
+      with:
+        version: latest
+      env:
+        JF_URL: https://trialj8vw48.jfrog.io/
+        JF_ACCESS_TOKEN: cmVmdGtuOjAxOjE3Njk2NzQ1OTE6OEVVWUprVVhQQzhQQ25vbldxMFBJNHpoV2Rm
         
     - name: Upload JAR to JFrog
       run: |
