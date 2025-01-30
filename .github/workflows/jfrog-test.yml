@@ -36,4 +36,5 @@ jobs:
 
       - name: Upload JAR files to Artifactory
         run: |
-          sudo jf rt u "target/*.jar" "repo-test/"
+          sudo jf rt u "target/*.jar" "repo-test/" --url https://trialj8vw48.jfrog.io/ --access-token ${{ secrets.JFROG_TOKEN }}
+          #sudo jf rt u "target/*.jar" "repo-test/"
