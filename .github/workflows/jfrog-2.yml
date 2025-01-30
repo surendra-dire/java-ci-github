@@ -2,6 +2,15 @@ name: jfrog
 
 on:
   workflow_dispatch:  # This enables manual trigger
+
+env:
+  # [Mandatory]
+  # JFrog platform URL and access token for
+  # a JFrog platform instance with active
+  # JFrog Advanced Security subscription
+  JF_URL: https://trialj8vw48.jfrog.io/
+  JF_TOKEN: cmVmdGtuOjAxOjE3Njk2NzQ1OTE6OEVVWUprVVhQQzhQQ25vbldxMFBJNHpoV2R
+  
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -45,24 +54,33 @@ jobs:
          #sudo mv jfrog /usr/local/bin/
          #sudo jf --version
 
-    - name: Setup JFrog CLI
-      uses: jfrog/setup-jfrog-cli@v4.5.6
-      with:
-        version: 2.73.0  # Specify a version of JFrog CLI
-        download-repository: https://myartifactory.example.com/jfrog-cli
-        oidc-provider-name: my-oidc-provider  # OpenID Connect provider
-        oidc-audience: https://my-org.example.com
-        disable-job-summary: true  # Disable the job summary generation
-        disable-auto-build-publish: true  # Disable automatic build-info publishing
-        custom-server-id: my-custom-server-id  # Use a custom server ID for configuration
+      #- name: Setup JFrog CLI
+        #uses: jfrog/setup-jfrog-cli@v4.5.6
+        #with:
+          #version: 2.73.0  # Specify a version of JFrog CLI
+          #download-repository: https://myartifactory.example.com/jfrog-cli
+          #oidc-provider-name: my-oidc-provider  # OpenID Connect provider
+          #oidc-audience: https://my-org.example.com
+          #disable-job-summary: true  # Disable the job summary generation
+          #disable-auto-build-publish: true  # Disable automatic build-info publishing
+          #custom-server-id: my-custom-server-id  # Use a custom server ID for configuration
 
-    - name: Configure JFrog CLI
-      uses: jfrog/setup-jfrog-cli@v3
-      with:
-        version: latest
-      env:
-        JF_URL: https://trialj8vw48.jfrog.io/
-        JF_ACCESS_TOKEN: cmVmdGtuOjAxOjE3Njk2NzQ1OTE6OEVVWUprVVhQQzhQQ25vbldxMFBJNHpoV2Rm
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+
+    - name: Install and configure JFrog CLI
+      run: |
+        npm install -g jfrog-cli-v2-jf
+        echo $JF_TOKEN | jf c add --interactive=false --url=$JF_URL --access-token-stdin
+        
+    #- name: Configure JFrog CLI
+      #uses: jfrog/setup-jfrog-cli@v3
+      #with:
+        #version: latest
+      #env:
+        #JF_URL: https://trialj8vw48.jfrog.io/
+        #JF_ACCESS_TOKEN: cmVmdGtuOjAxOjE3Njk2NzQ1OTE6OEVVWUprVVhQQzhQQ25vbldxMFBJNHpoV2Rm
+        
     - name: Upload JAR to JFrog
       run: |
          sudo jf rt u "target/*.jar" "repo-test/"     
