@@ -86,6 +86,7 @@ jobs:
       run: |
         jf config add artifactory-server \
           --url="https://trialj8vw48.jfrog.io" \
+          --url="admin" \
           --password="Admin123!" \
           
     - name: Upload JAR to JFrog
