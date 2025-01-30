@@ -1,0 +1,39 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+# JFrog SAST performs 1st party source code security analysis
+# For more information, see
+# https://docs.jfrog-applications.jfrog.io/jfrog-security-features/sast
+
+name: "jfrog-test"
+
+on: workflow_dispatch
+
+env:
+  # [Mandatory]
+  # JFrog platform URL and access token for
+  # a JFrog platform instance with active
+  # JFrog Advanced Security subscription
+  JF_URL: ${{ secrets.JF_URL }}
+  JF_TOKEN: ${{ secrets.JF_ACCESS_TOKEN }}
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      
+      - name: Set CI environment variable
+        run: echo "CI=true" >> $GITHUB_ENV
+
+      - name: Install JFrog CLI
+        run: curl -fL https://get.jfrog.io/jfrog-cli-linux-amd64/jfrog-cli-linux-amd64 > jfrog && chmod +x jfrog && sudo mv jfrog /usr/local/bin/
+
+      - name: Configure JFrog CLI
+        run: |
+          jfrog rt c --url https://trialj8vw48.jfrog.io/ --user admin --password Admin123!
+
+      - name: Upload JAR files to Artifactory
+        run: |
+          sudo jf rt u "target/*.jar" "repo-test/"
