@@ -8,8 +8,8 @@ env:
   # JFrog platform URL and access token for
   # a JFrog platform instance with active
   # JFrog Advanced Security subscription
-  JF_URL: https://trialj8vw48.jfrog.io/artifactory/repo-test/
-  JF_TOKEN: cmVmdGtuOjAxOjE3Njk2NzQ1OTE6OEVVWUprVVhQQzhQQ25vbldxMFBJNHpoV2R
+  JF_URL: https://trialj8vw48.jfrog.io
+  JF_TOKEN: ${{ secrets.JFROG_TOKEN }}
   
 jobs:
   build:
@@ -71,15 +71,15 @@ jobs:
     - name: Install and configure JFrog CLI
       run: |
         npm install -g jfrog-cli-v2-jf
-        echo $JF_TOKEN | jf c add --interactive=false --url=$JF_URL --access-token-stdin
+        #echo ${{ secrets.JFROG_TOKEN }} | jf c add --interactive=false --url=$JF_URL --access-token-stdin
         
     - name: Configure JFrog CLI - Ankit
       uses: jfrog/setup-jfrog-cli@v3
       with:
         version: latest
       env:
-        JF_URL: https://trialj8vw48.jfrog.io/
-        JF_ACCESS_TOKEN: cmVmdGtuOjAxOjE3Njk2NzQ1OTE6OEVVWUprVVhQQzhQQ25vbldxMFBJNHpoV2Rm
+        JF_URL: https://trialj8vw48.jfrog.io
+        JF_ACCESS_TOKEN: ${{ secrets.JFROG_TOKEN }}
         
     - name: Upload JAR to JFrog
       run: |
