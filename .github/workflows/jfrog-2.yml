@@ -83,4 +83,5 @@ jobs:
         
     - name: Upload JAR to JFrog
       run: |
-         sudo jf rt u "target/*.jar" "repo-test/"     
+        echo ${{ secrets.JFROG_TOKEN }} | jf c add --interactive=false --url=https://trialj8vw48.jfrog.io --access-token-stdin
+        sudo jf rt u "target/*.jar" "repo-test/"     
