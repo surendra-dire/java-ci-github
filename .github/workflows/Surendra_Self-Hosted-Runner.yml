@@ -1,5 +1,5 @@
 
-name: CI 4 self hosted runners
+name: self hosted runners
 
 on:
   #push:
