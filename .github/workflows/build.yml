@@ -1,4 +1,4 @@
-name: Java CI with Maven surendra
+name: build
 
 on:
   workflow_dispatch:  # This enables manual trigger
