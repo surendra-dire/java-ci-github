@@ -1,40 +1,47 @@
-# This workflow uses actions that are not certified by GitHub.
-# They are provided by a third-party and are governed by
-# separate terms of service, privacy policy, and support
-# documentation.
-# JFrog SAST performs 1st party source code security analysis
-# For more information, see
-# https://docs.jfrog-applications.jfrog.io/jfrog-security-features/sast
+name: test123
 
-name: "jfrog-test"
 
-on: workflow_dispatch
+on: [push]
 
-env:
-  # [Mandatory]
-  # JFrog platform URL and access token for
-  # a JFrog platform instance with active
-  # JFrog Advanced Security subscription
-  JF_URL: ${{ secrets.JF_URL }}
-  JF_TOKEN: ${{ secrets.JF_ACCESS_TOKEN }}
+
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+ build:
+   runs-on: ubuntu-latest
+  
+   steps:
+   # This action checks out the code from the repository
+   - name: Checkout Code
+     uses: actions/checkout@v2
+
+
+   # This action sets up the JFrog CLI with Artifactory URL and    a predefined Artifactory oidc integration name
+   - uses: jfrog/setup-jfrog-cli@v4
+     with:
+          oidc-provider-name: <oidc integration name>
+     env:
+       JF_URL: https://trialj8vw48.jfrog.io/
+       #JF_PROJECT: ${{ vars.JF_PROJECT }} # optional variable
+
       
-      - name: Set CI environment variable
-        run: echo "CI=true" >> $GITHUB_ENV
+   # This action sets up the JFrog CLI with the Artifactory URL and access token     
+   - uses: jfrog/setup-jfrog-cli@v4
+     env:
+       JF_URL: https://trialj8vw48.jfrog.io/
+       JF_ACCESS_TOKEN: ${{ secrets.JFROG_TOKEN }} 
 
-      - name: Install JFrog CLI
-        run: curl -fL https://get.jfrog.io/jfrog-cli-linux-amd64/jfrog-cli-linux-amd64 > jfrog && chmod +x jfrog && sudo mv jfrog /usr/local/bin/
+   # This command adds a new server configuration to the JFrog CLI, as an alternative for using the setup-jfrog-cli action    
+   - run: |
+       export SERVER_ID="test"
+       jf c add $SERVER_ID --url=https://trialj8vw48.jfrog.io/ --access-token=${{ secrets.JFROG_TOKEN }}  --interactive=false
 
-      - name: Configure JFrog CLI
-        run: |
-          jfrog rt c --url https://trialj8vw48.jfrog.io/ --user admin --password Admin123!
 
-      - name: Upload JAR files to Artifactory
-        run: |
-          sudo jf rt u "target/*.jar" "repo-test/" --url https://trialj8vw48.jfrog.io/ --access-token ${{ secrets.JFROG_TOKEN }}
-          #sudo jf rt u "target/*.jar" "repo-test/"
+   # This action creates a new test file and uploads it to Artifactory, if build_name and build_number are omitted GitHub run default are used     
+   - name: Push Build to Artifactory
+     run: |
+       echo "test file " > test.txt
+       export BUILD_NAME="my-build"
+       export BUILD_MODULE="my-module"
+       export BUILD_NUMBER="1"
+
+
+    
