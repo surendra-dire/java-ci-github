@@ -93,4 +93,4 @@ jobs:
       run: |
         #jf config add artifactory-server --artifactory-url="https://trialj8vw48.jfrog.io" --user="admin" --password="Admin123!" --interactive=false
         #echo ${{ secrets.JFROG_TOKEN }} | jf c add --interactive=false --url=https://trialj8vw48.jfrog.io --access-token-stdin
-        sudo jf rt u "target/*.jar" "https://trialj8vw48.jfrog.io/artifactory/repo-test/"  --artifactory-url="https://trialj8vw48.jfrog.io" --user "admin" --password="Admin123!"
+        sudo jf rt u "target/*.jar" "https://trialj8vw48.jfrog.io/artifactory/repo-test/"  --url="https://trialj8vw48.jfrog.io" --user "admin" --password="Admin123!"
