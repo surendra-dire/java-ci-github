@@ -1,4 +1,4 @@
-name: jfrog
+name: jfrog-2
 
 on:
   workflow_dispatch:  # This enables manual trigger
