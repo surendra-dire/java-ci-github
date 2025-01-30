@@ -17,7 +17,7 @@ jobs:
     steps:
 
     - name: Print runner name
-      run: |
+      run: | 
           echo "Runner name is $RUNNER_NAME"
      
     - uses: actions/checkout@v4
@@ -71,7 +71,7 @@ jobs:
     - name: Install and configure JFrog CLI
       run: |
         npm install -g jfrog-cli-v2-jf
-        #echo ${{ secrets.JFROG_TOKEN }} | jf c add --interactive=false --url=$JF_URL --access-token-stdin
+        #echo ${{ secrets.JFROG_TOKEN }} | jf c add --interactive=false --url=https://trialj8vw48.jfrog.io --access-token-stdin
         
     - name: Configure JFrog CLI - Ankit
       uses: jfrog/setup-jfrog-cli@v3
