@@ -84,7 +84,7 @@ jobs:
         #JF_ACCESS_TOKEN: ${{ secrets.JFROG_TOKEN }}
     - name: Configure JFrog CLI with Access Token
       run: |
-        jfrog config add artifactory-server \
+        jf config add artifactory-server \
           --url="https://trialj8vw48.jfrog.io" \
           --password="Admin123!" \
           
