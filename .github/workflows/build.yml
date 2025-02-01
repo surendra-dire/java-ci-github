@@ -37,6 +37,14 @@ jobs:
         name: jar
         path: target/*.jar
 
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+
+    - name: Install and configure JFrog CLI
+      run: |
+        npm install -g jfrog-cli-v2-jf
+        echo ${{ secrets.JFROG_TOKEN }} | jf c add --interactive=false --url=https://trialj8vw48.jfrog.io --access-token-stdin
+
     - name: Configure JFrog CLI with Access Token
       run: |
         jf config add artifactory-server \
@@ -46,7 +54,7 @@ jobs:
           
     - name: Upload JAR to JFrog
       run: |
+        #jf config add artifactory-server --artifactory-url="https://trialj8vw48.jfrog.io" --user="admin" --password="Admin123!" --interactive=false
+        #echo ${{ secrets.JFROG_TOKEN }} | jf c add --interactive=false --url=https://trialj8vw48.jfrog.io --access-token-stdin
         sudo jf rt u "target/*.jar" "/artifactory/repo-test/"  --url="https://trialj8vw48.jfrog.io" --user "admin" --password="Admin123!"
-
-
    
