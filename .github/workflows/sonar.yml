@@ -5,8 +5,18 @@ on:
   
 jobs:
   sonar:
-    #runs-on: ubuntu-latest
+    runs-on: ubuntu-latest
     
     steps:
+
+    - name: Download Build Artifacts
+      uses: actions/download-artifact@v3
+      with:
+        name: build-artifacts 
+        
+    - name: Checkout Code
+      uses: actions/checkout@v3  
+        
     - name: SonarCloud Scaning
       run: mvn sonar:sonar -Dsonar.projectKey=surendradire_java-ci-gihub -Dsonar.organization=demo-org-key -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=2f515f13fa1f66d8619b8f604c87e2bacc7a8bc3
+
