@@ -7,7 +7,14 @@ env:
   JF_URL: https://trialj8vw48.jfrog.io
   JF_TOKEN: ${{ secrets.JFROG_TOKEN }}
 
+  DOCKER_IMAGE: surendradockerid19/petapp:${{ github.sha }}
+  MAVEN_OPTS: "-DskipTests=true"
+
 jobs:
   build:
     uses: ./.github/workflows/build.yml
     secrets: inherit
+sonar:
+     uses: ./.github/workflows/sonar.yml
+     needs: build
+     secrets: inherit
