@@ -1,11 +1,7 @@
 name: Sonar Scan
 
 on:
-  workflow_dispatch: 
-
-env:
-  JF_URL: https://trialj8vw48.jfrog.io
-  JF_TOKEN: ${{ secrets.JFROG_TOKEN }}
+ workflow_call:
   
 jobs:
   build:
