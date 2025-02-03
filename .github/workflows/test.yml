@@ -1,0 +1,17 @@
+name: test
+on:
+   workflow_call:
+
+jobs:
+  build:
+    runs-on: [self-hosted, aws-ec2-runner]
+    steps:
+
+     - name: RUN UNIT TEST
+       run: mvn test
+  
+     - name: UPLOAD TEST RESULTS
+       uses: actions/upload-artifact@v4
+       with:
+         name: test-results
+         path: target/test-classes/TEST-*.xml
