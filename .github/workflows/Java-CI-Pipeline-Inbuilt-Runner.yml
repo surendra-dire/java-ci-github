@@ -1,1 +1,67 @@
+name: Java-CI-Pipeline-Inbuilt-Runner.yml
 
+on:
+  workflow_dispatch:  # This enables manual trigger
+
+env:
+  JF_URL: https://trialj8vw48.jfrog.io
+  JF_TOKEN: ${{ secrets.JFROG_TOKEN }}
+
+jobs:
+  # Checkout --> Install JDK --> Use Cache Maven Dependencies --> Build -->Sonar Scan ---> Docker push -->Jfrog
+  build:                                            
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: PRINT THE RUNNER NAME
+      run: | 
+          echo "Runner name is $RUNNER_NAME"
+          
+    - name: CHECKOUT CODE
+    - uses: actions/checkout@v4
+
+    - name: SET UP JDK 17
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+        cache: maven
+
+    - name: CACHE MAVEN DEPENDENCIES
+      uses: actions/cache@v3
+      with:
+        path: ~/.m2/repository
+        key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          
+    - name: BUILD WITH MAVEN
+      run: mvn clean install
+
+    - name: UPLOAD BUILD ARTIFACTS
+      uses: actions/upload-artifact@v4
+      with:
+        name: jar
+        path: target/*.jar
+
+    - name: SETUP Node.js
+      uses: actions/setup-node@v4
+
+    - name: INSTALL AND CONFIGURE JFROG CLI
+      run: |
+        npm install -g jfrog-cli-v2-jf
+        echo ${{ secrets.JFROG_TOKEN }} | jf c add --interactive=false --url=https://trialj8vw48.jfrog.io --access-token-stdin
+
+    - name: CONFIGURE JFrog CLI WITH ACCESS TOKEN OR USERNAME/PASSWORD
+      run: |
+        jf config add artifactory-server \
+          --url="https://trialj8vw48.jfrog.io" \
+          --user="admin" \
+          --password="Admin123!" \
+          
+    - name: UPLOAD JAR TO JFrog
+      run: |
+        #jf config add artifactory-server --artifactory-url="https://trialj8vw48.jfrog.io" --user="admin" --password="Admin123!" --interactive=false
+        #echo ${{ secrets.JFROG_TOKEN }} | jf c add --interactive=false --url=https://trialj8vw48.jfrog.io --access-token-stdin
+        sudo jf rt u "target/*.jar" "/artifactory/repo-test/"  --url="https://trialj8vw48.jfrog.io" --user "admin" --password="Admin123!"
+
+
+        
