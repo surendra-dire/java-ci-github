@@ -8,14 +8,13 @@ env:
   JF_TOKEN: ${{ secrets.JFROG_TOKEN }}
 
 jobs:
-  # Checkout --> Install JDK --> Use Cache Maven Dependencies --> Build --> Sonar Scan ---> Docker push --> JFrog
+  #Checkout -->Install JDK -->Cache Maven Dependencies -->Build -->Sonar Scan -->Test (upload) -->Docker push -->JFrog
   build:                                            
     runs-on: ubuntu-latest
     
     steps:
     - name: PRINT THE RUNNER NAME
-      run: | 
-          echo "Runner name is $RUNNER_NAME"
+      run:  echo "Runner name is $RUNNER_NAME"
           
     - name: CHECKOUT CODE
       uses: actions/checkout@v4
@@ -44,7 +43,16 @@ jobs:
 
     - name: SonarCloud SCAN
       run: mvn sonar:sonar -Dsonar.projectKey=surendradire_java-ci-gihub -Dsonar.organization=demo-org-key -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=2f515f13fa1f66d8619b8f604c87e2bacc7a8bc3 -Dsonar.java.binaries=target/classes
-    
+
+    - name: RUN UNIT TEST
+      run: mvn test
+
+    - name: Upload Test Results
+      uses: actions/upload-artifact@v3
+      with:
+        name: test-results
+        path: target/test-classes/TEST-*.xml
+          
     - name: SETUP Node.js
       uses: actions/setup-node@v4
 
