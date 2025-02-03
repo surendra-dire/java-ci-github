@@ -3,7 +3,7 @@ on:
    workflow_call:
 
 jobs:
-  build:
+  test:
     runs-on: [self-hosted, aws-ec2-runner]
     
     steps:
