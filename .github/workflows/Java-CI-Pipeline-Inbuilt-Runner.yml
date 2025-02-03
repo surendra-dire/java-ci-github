@@ -44,6 +44,7 @@ jobs:
 
     - name: SonarCloud SCAN
       run: mvn sonar:sonar -Dsonar.projectKey=ankit20000_DevSecops_Pipeline -Dsonar.organization=ankit20000 -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=3efd906389f89ff2f42493c5bda21481a0a75a68
+    
     - name: SETUP Node.js
       uses: actions/setup-node@v4
 
