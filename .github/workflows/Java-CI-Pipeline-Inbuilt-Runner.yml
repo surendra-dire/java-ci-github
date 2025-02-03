@@ -43,7 +43,7 @@ jobs:
         path: target/*.jar
 
     - name: SonarCloud SCAN
-      run: mvn sonar:sonar -Dsonar.projectKey=ankit20000_DevSecops_Pipeline -Dsonar.organization=ankit20000 -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=3efd906389f89ff2f42493c5bda21481a0a75a68
+      run: mvn sonar:sonar -Dsonar.projectKey=surendradire_java-ci-gihub -Dsonar.organization=demo-org-key -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=2f515f13fa1f66d8619b8f604c87e2bacc7a8bc3 -Dsonar.java.binaries=target/classes
     
     - name: SETUP Node.js
       uses: actions/setup-node@v4
