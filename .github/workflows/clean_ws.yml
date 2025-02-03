@@ -1,0 +1,14 @@
+name: clean_ws
+
+on:
+ workflow_call:
+ 
+jobs:
+  clear_ws:
+    runs-on: [self-hosted, aws-ec2-runner]
+    
+    steps:
+      - name: Clear workspace
+        run: |
+          echo "Cleaning up workspace"
+          rm -rf $GITHUB_WORKSPACE/*
