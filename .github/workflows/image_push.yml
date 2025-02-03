@@ -13,7 +13,7 @@ jobs:
     steps:
      - name: Clean up Docker system
        run: |
-         docker system prune -af
+         sudo docker system prune -af
     
      - name: BUILD DOCKER IMAGE
        run: |
