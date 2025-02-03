@@ -8,7 +8,7 @@ env:
   JF_TOKEN: ${{ secrets.JFROG_TOKEN }}
 
 jobs:
-  # Checkout --> Install JDK --> Use Cache Maven Dependencies --> Build -->Sonar Scan ---> Docker push -->Jfrog
+  # Checkout --> Install JDK --> Use Cache Maven Dependencies --> Build --> Sonar Scan ---> Docker push --> JFrog
   build:                                            
     runs-on: ubuntu-latest
     steps:
@@ -42,6 +42,8 @@ jobs:
         name: jar
         path: target/*.jar
 
+    - name: SonarCloud SCAN
+      run: mvn sonar:sonar -Dsonar.projectKey=ankit20000_DevSecops_Pipeline -Dsonar.organization=ankit20000 -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=3efd906389f89ff2f42493c5bda21481a0a75a68
     - name: SETUP Node.js
       uses: actions/setup-node@v4
 
@@ -63,5 +65,4 @@ jobs:
         #echo ${{ secrets.JFROG_TOKEN }} | jf c add --interactive=false --url=https://trialj8vw48.jfrog.io --access-token-stdin
         sudo jf rt u "target/*.jar" "/artifactory/repo-test/"  --url="https://trialj8vw48.jfrog.io" --user "admin" --password="Admin123!"
 
-
-        
+     
