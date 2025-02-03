@@ -9,8 +9,6 @@ env:
 jobs:
   image_push:
     runs-on: [self-hosted, aws-ec2-runner]
-    env:
-      DOCKER_IMAGE: ankit1111/petapp:${{ github.sha }}
 
     steps:
      - name: BUILD DOCKER IMAGE
