@@ -9,8 +9,12 @@ env:
 jobs:
   image_push:
     runs-on: [self-hosted, aws-ec2-runner]
-
+   
     steps:
+     - name: Clean up Docker system
+       run: |
+         docker system prune -af
+    
      - name: BUILD DOCKER IMAGE
        run: |
          sudo docker build -t ${{ env.DOCKER_IMAGE }} .
