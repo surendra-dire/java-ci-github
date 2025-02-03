@@ -11,8 +11,8 @@ jobs:
   # Checkout --> Install JDK --> Use Cache Maven Dependencies --> Build --> Sonar Scan ---> Docker push --> JFrog
   build:                                            
     runs-on: ubuntu-latest
+    
     steps:
-
     - name: PRINT THE RUNNER NAME
       run: | 
           echo "Runner name is $RUNNER_NAME"
