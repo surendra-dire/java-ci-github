@@ -6,6 +6,7 @@ on:
 env:
   JF_URL: https://trialj8vw48.jfrog.io
   JF_TOKEN: ${{ secrets.JFROG_TOKEN }}
+  DOCKER_IMAGE: surendradockerid19/petapp:${{ github.sha }}
 
 jobs:
   #Checkout -->Install JDK -->Cache Maven Dependencies -->Build -->Sonar Scan -->Test (upload) -->Docker push -->JFrog
@@ -47,12 +48,33 @@ jobs:
     - name: RUN UNIT TEST
       run: mvn test
 
-    - name: Upload Test Results
+    - name: UPLOAD TEST RESULTS
       uses: actions/upload-artifact@v4
       with:
         name: test-results
         path: target/test-classes/TEST-*.xml
-          
+
+    # START: DOCKER IMAGE AND PUSH
+    - name: BUILD DOCKER IMAGE
+      run: |
+        sudo docker build -t ${{ env.DOCKER_IMAGE }} .
+        sudo docker save ${{ env.DOCKER_IMAGE }} > docker_image.tar
+
+    - name: UPLOAD DOCKER IMAGE ARTIFACT
+      uses: actions/upload-artifact@v4
+      with:
+        name: docker-image
+        path: docker_image.tar
+
+    - name: LOG IN TO DOCKER HUB
+      run: echo "Testing1!" | sudo docker login -u "surendraqa10@gmail.com" --password-stdin
+      #run: echo "${{ secrets.DOCKER_PASSWORD }}" | sudo docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+
+    - name: PUSH DOCKER IMAGE
+      run: sudo docker push ${{ env.DOCKER_IMAGE }}
+
+      # END: DOCKER IMAGE AND PUSH
+      
     - name: SETUP Node.js
       uses: actions/setup-node@v4
 
