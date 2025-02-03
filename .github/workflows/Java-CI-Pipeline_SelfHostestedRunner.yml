@@ -11,10 +11,14 @@ env:
   MAVEN_OPTS: "-DskipTests=true"
 
 jobs:
+  clean_ws:
+    uses: ./.github/workflows/clean_ws.yml
+    secrets: inherit
+    
   build:
     uses: ./.github/workflows/build.yml
     secrets: inherit
-    
+      
   sonar:
      uses: ./.github/workflows/sonar.yml
      needs: build
