@@ -1,7 +1,7 @@
 name: Java-CI-Pipeline-Inbuilt-Runner.yml
 
 on:
-  workflow_dispatch:  # manual trigger
+  workflow_dispatch:  # Manual trigger
 
 env:
   JF_URL: https://trialj8vw48.jfrog.io
