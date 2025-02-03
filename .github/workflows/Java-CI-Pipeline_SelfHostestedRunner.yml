@@ -1,4 +1,4 @@
-name: Java-CI-Pipeline.yml
+name: Java CI Pipeline [Self Hosted Runner]
 
 on:
   workflow_dispatch: 
