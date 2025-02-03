@@ -1,4 +1,4 @@
-name: jfrog-2
+name: jfrog-bkp
 
 on:
   workflow_dispatch:  # This enables manual trigger
