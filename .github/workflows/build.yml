@@ -2,16 +2,14 @@ name: build.yml
 
 on: 
  workflow_call:
-#on:
-  #workflow_dispatch:  # This enables manual trigger
+
 jobs:
   build:
-    runs-on: ubuntu-latest
-    steps:
+    runs-on: [self-hosted, aws-ec2-runner]
 
+    steps:
     - name: Print runner name
-      run: |
-          echo "Runner name is $RUNNER_NAME"
+      run:  echo "Runner name is $RUNNER_NAME"
      
     - uses: actions/checkout@v4
     
