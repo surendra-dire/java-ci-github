@@ -17,6 +17,7 @@ jobs:
     
   build:
     uses: ./.github/workflows/build.yml
+    needs: clean_ws
     secrets: inherit
       
   sonar:
