@@ -27,8 +27,8 @@ jobs:
          path: docker_image.tar
  
      - name: LOG IN TO DOCKER HUB
-       run: echo "Testing1!" | sudo docker login -u "surendraqa10@gmail.com" --password-stdin
-       #run: echo "${{ secrets.DOCKER_PASSWORD }}" | sudo docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+       #run: echo "abc123" | sudo docker login -u "surendraqa10@gmail.com" --password-stdin
+       run: echo "${{ secrets.DOCKER_PASSWORD }}" | sudo docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
  
      - name: PUSH DOCKER IMAGE
        run: sudo docker push ${{ env.DOCKER_IMAGE }}
