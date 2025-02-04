@@ -9,4 +9,4 @@ jobs:
     
     steps:
     - name: SonarCloud Scaning
-      run: mvn sonar:sonar -Dsonar.projectKey=surendradire_java-ci-gihub -Dsonar.organization=demo-org-key -Dsonar.host.url=https://sonarcloud.io -Dsonar.login="${{ secrets.JFROG_TOKEN }}" -Dsonar.java.binaries=target/classes     
+      run: mvn sonar:sonar -Dsonar.projectKey=surendradire_java-ci-gihub -Dsonar.organization=demo-org-key -Dsonar.host.url=https://sonarcloud.io -Dsonar.login="${{ secrets.SONAR_TOKEN }}" -Dsonar.java.binaries=target/classes     
