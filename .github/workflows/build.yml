@@ -11,14 +11,11 @@ jobs:
      
     - uses: actions/checkout@v4
 
-    - name: Print Workspace Details
+    - name: Print Workspace/Runner Details
       run: |
             echo "Workspace Path: $GITHUB_WORKSPACE"
             echo "Runner Temporary Directory: $RUNNER_TEMP"
-            echo "Contents of Workspace:"
-            ls -l $GITHUB_WORKSPACE
-            
-            echo "GITHUB Actions Runner Info:"
+            echo "Contents of Workspace:" ls -l $GITHUB_WORKSPACE
             echo "GitHub Runner OS: $RUNNER_OS"
             echo "Runner Name: $RUNNER_NAME"
             echo "Run ID: $GITHUB_RUN_ID"
