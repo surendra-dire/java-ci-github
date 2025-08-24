@@ -1,0 +1,52 @@
+name: Java-CI-Pipeline-Inbuilt-Runner.yml
+
+on:
+  workflow_dispatch:  # Manual trigger
+
+env:
+  JF_URL: https://trialj8vw48.jfrog.io
+  JF_TOKEN: ${{ secrets.JFROG_TOKEN }}
+  DOCKER_IMAGE: surendradockerid19/petapp:${{ github.sha }}
+
+jobs:
+  #Checkout -->Install JDK -->Cache Maven Dependencies -->Build -->Sonar Scan -->Test (upload) -->Docker push -->JFrog
+  build:                                            
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: PRINT THE RUNNER NAME
+      run:  echo "Runner name is $RUNNER_NAME"
+          
+    - name: CHECKOUT CODE
+      uses: actions/checkout@v4
+
+    - name: SET UP JDK 17
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+        cache: maven
+
+    - name: CACHE MAVEN DEPENDENCIES
+      uses: actions/cache@v3
+      with:
+        path: ~/.m2/repository
+        key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          
+    - name: BUILD WITH MAVEN
+      run: mvn clean install
+
+    - name: Notify n8n of deployment status
+      if: always()  # So it runs even if previous steps fail
+      run: |
+        curl -X POST https://surendra-singh.app.n8n.cloud/webhook/ci-status \
+          -H "Content-Type: application/json" \
+          -d '{
+                "status": "${{ job.status }}",
+                "commit": "${{ github.sha }}",
+                "branch": "${{ github.ref_name }}"
+              }'
+
+
+
+      
