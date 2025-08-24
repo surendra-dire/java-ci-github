@@ -31,7 +31,7 @@ jobs:
       uses: actions/cache@v3
       with:
         path: ~/.m2/repository
-        key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+        key: ${{ runner.os }}-maven-${{ hashFiles('**/pom1.xml') }}
           
     - name: BUILD WITH MAVEN
       run: mvn clean install
