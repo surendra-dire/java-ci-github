@@ -37,6 +37,7 @@ jobs:
       run: mvn clean install
 
     - name: Call n8n Webhook with Status
+      if: always()  # So it runs even if previous steps fail
       run: |
         curl -X POST https://your-n8n-url/webhook/ci-status \
           -H "Content-Type: application/json" \
