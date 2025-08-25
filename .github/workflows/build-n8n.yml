@@ -36,19 +36,16 @@ jobs:
     - name: BUILD WITH MAVEN
       run: mvn clean install
 
-    - name: Notify n8n of build status
-      if: always()  # So it runs even if previous steps fail
+    - name: Call n8n Webhook with Status
       run: |
-        curl -X POST https://surendra-singh.app.n8n.cloud/webhook/ci-status \
+        curl -X POST https://your-n8n-url/webhook/ci-status \
           -H "Content-Type: application/json" \
           -d '{
                 "status": "${{ job.status }}",
+                "branch": "${{ github.ref_name }}",
                 "commit": "${{ github.sha }}",
-                "branch": "${{ github.ref_name }}"
-                "run_id": "${{ github.run_id }}",
-                "repo": "${{ github.repository }}"
+                "buildUrl": "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
               }'
-
 
 
       
