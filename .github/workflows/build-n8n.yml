@@ -39,7 +39,7 @@ jobs:
     - name: Call n8n Webhook with Status
       if: always()  # So it runs even if previous steps fail
       run: |
-        curl -X POST https://your-n8n-url/webhook/ci-status \
+        curl -X POST https://surendra-singh.app.n8n.cloud/webhook/ci-status \
           -H "Content-Type: application/json" \
           -d '{
                 "status": "${{ job.status }}",
