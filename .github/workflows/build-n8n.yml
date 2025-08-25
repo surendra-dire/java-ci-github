@@ -45,6 +45,8 @@ jobs:
                 "status": "${{ job.status }}",
                 "commit": "${{ github.sha }}",
                 "branch": "${{ github.ref_name }}"
+                "run_id": "${{ github.run_id }}",
+                "repo": "${{ github.repository }}"
               }'
 
 
